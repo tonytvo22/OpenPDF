@@ -405,7 +405,7 @@ public class PdfPKCS7 {
       } catch (IOException e) {
         throw new IllegalArgumentException(
             MessageLocalization
-                .getComposedMessage("can.t.decode.pkcs7signeddata.object"));
+                .getComposedMessage("can.t.decode.pkcs7signeddata.object"), e);
       }
       if (!(pkcs instanceof ASN1Sequence)) {
         throw new IllegalArgumentException(
