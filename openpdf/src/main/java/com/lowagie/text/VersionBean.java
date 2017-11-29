@@ -22,7 +22,9 @@
 package com.lowagie.text;
 
 import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -82,11 +84,16 @@ final class VersionBean {
                 if (manifest != null) {
                     initializePropertiesFromManifest(manifest);
                     initializeDerivativeProperties();
+                } else {
+                    findVersionFallback();
                 }
             } catch (Exception e) {
             }
+        }
 
-            
+        private void findVersionFallback() {
+            implementationVersion = getVersionFromFile();
+            bundleVersion = implementationVersion;
         }
 
         private void initializePropertiesFromManifest(Manifest manifest) {
@@ -184,7 +191,7 @@ final class VersionBean {
 
                 try {
                     connection.setUseCaches(false);
-                } catch (IllegalArgumentException e) {
+                } catch (IllegalArgumentException ignored) {
                 }
 
                 return connection.getInputStream();
@@ -223,6 +230,17 @@ final class VersionBean {
             } else {
                 return getVersion();
             }
+        }
+
+        private String getVersionFromFile() {
+            InputStream is = this.getClass().getClassLoader().getResourceAsStream("version.txt");
+            String version = null;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+                version = reader.readLine();
+                version = version.replace('-', '.');
+            } catch (IOException ignored) {
+            }
+            return version;
         }
     }
 
