@@ -68,11 +68,6 @@
     </profiles>
     <build>
         <plugins>
-             <plugin>
-        		<groupId>org.jacoco</groupId>
-        		<artifactId>jacoco-maven-plugin</artifactId>
-        		<version>0.8.1</version>
-   			 </plugin>
 
    			<!-- Create sources for better debugging and context assist -->
             <plugin>
@@ -224,6 +219,11 @@
                     </instructions>
                 </configuration>
             </plugin>
+            <plugin>
+        	    <groupId>org.jacoco</groupId>
+        		<artifactId>jacoco-maven-plugin</artifactId>
+        		<version>0.8.1</version>
+   			</plugin>
         </plugins>
     </build>
 
